@@ -1,0 +1,206 @@
+<div class="container">
+  <div class="col-md-12 card">
+    <form #f="ngForm" id ="form"class="col-md-12" (ngSubmit)="f.form.valid && onSubmit()" autocomplete="false" novalidate>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3" >
+            <label class="labelClass" for="email">{{'email' | translate}}</label>
+            <span class="required">*</span>
+          </div>
+          <div class="col-4 inputClass">
+            <input type="text" name="email" class="form-control" [(ngModel)]="details['email']" #email="ngModel"
+              autofocus=on [ngClass]="{ 'is-invalid': f.submitted && email.invalid }" required email
+              autocomplete="false" />
+            <div *ngIf="email.errors  && (f.submitted && email.invalid)" class="invalid-feedback">
+              <div *ngIf="email['errors']['required']">Email is required</div>
+              <div *ngIf="email['errors']['email']">
+                Email must be a valid email address
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label class="labelClass" for="password">{{'password' | translate}}</label>
+            <span class="required">*</span>
+          </div>
+          <div class="col-4 inputClass">
+            <input type="password" name="password" class="form-control" [(ngModel)]="details['password']" autofocus=on
+              #password="ngModel" [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" required minlength="6"
+              autocomplete="false" />
+            <div *ngIf="password.errors && (f.submitted && password.invalid)" class="invalid-feedback">
+              <div *ngIf="password.errors.required">Password is required</div>
+              <div *ngIf="password.errors.minlength">
+                Password must be at least 6 characters
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label class="labelClass" for="confirmPassword">{{'confirmPassword' | translate}}</label>
+          </div>
+          <div class="col-4 inputClass">
+            <input type="password" name="confirmPassword" class="form-control" [(ngModel)]="details['confirmPassword']"
+              autofocus=on #confirmPassword="ngModel"
+              [ngClass]="{ 'is-invalid': f.submitted && confirmPassword.invalid }" required autocomplete="false" />
+            <div *ngIf="confirmPassword.errors && (f.submitted && confirmPassword.invalid)" class="invalid-feedback">
+              <div *ngIf="confirmPassword.errors.required">
+                Confirm Password is required
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label class="labelClass"for="mobileNumber">{{'mobileNumber' | translate}}</label>
+          </div>
+          <div class="col-4 inputClass">
+            <!-- <input type="text" id="mobileNumber" class="form-control" name="mobileNumber"
+              [ngClass]="{ 'is-invalid': f.submitted && mobileNumber.invalid }" [(ngModel)]="details['mobileNumber']"
+              #mobileNumber="ngModel" required autocomplete="false"> -->
+            <ngx-intl-tel-input [cssClass]="'custom'" [preferredCountries]="preferredCountries"
+              [enableAutoCountrySelect]="true" [enablePlaceholder]="true" [searchCountryFlag]="true"
+              [searchCountryField]="[
+                SearchCountryField.Iso2,
+                SearchCountryField.Name
+              ]" [selectFirstCountry]="false" [selectedCountryISO]="CountryISO.India" [maxLength]="maxlength"
+              [phoneValidation]="true" [separateDialCode]="separateDialCode" [numberFormat]="PhoneNumberFormat.National"
+              name="phone" [(ngModel)]="details['mobileNumber']" #mobileNumber="ngModel">
+            </ngx-intl-tel-input>
+            <div *ngIf="mobileNumber.errors && (f.submitted && mobileNumber.invalid)" class="invalid-feedback">
+              <div *ngIf="mobileNumber.errors.required">Mobile Number is required</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label class="labelClass">{{'profilePicture' | translate}}</label>
+          </div>
+          <div class="col-4 inputClass">
+            <div class="group-gap">
+
+              <!-- Upload image -->
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" #fileInput
+                    (change)="uploadFile($event)" autofocus=on> />
+                </div>
+                <div class="avatar-preview">
+                  <div id="imagePreview" [style.backgroundImage]="'url('+ imageUrl +')'">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="button" class="btn btnline  btn-lg btn-block" (click)="fileInput.click()" autofocus=on>Upload
+              Image</button>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label class="labelClass">{{'gender' | translate}}</label>
+          </div>
+          <div class="col-4 inputClass d-flex">
+              <input type="radio" class="form-check-input mr-1 " id="Male" name="Male" value="Male"  [(ngModel)]="details['gender']" autofocus=on>
+              <label class="form-text" for="Male">{{'male' | translate}}</label><br>
+              <input type="radio" class="form-check-input mr-1" id="Female" name="Female" value="Female" [(ngModel)]="details['gender']" autofocus=on>
+              <label class="form-text" for="Female">{{'female' | translate}}</label><br>
+              <input type="radio" class="form-check-input " id="Others" name="Others" value="Others" [(ngModel)]="details['gender']" autofocus=on>
+              <label class="form-text" for="Others">{{'others' | translate}}</label>
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3" ><label class="labelClass">{{'dateOfBirth' | translate}}</label></div>
+          <div class="col-4 inputClass">
+            <my-date-picker name="mydate" placeholder="mm-dd-yyyy" [options]="myDatePickerOptions"
+              (dateChanged)="onDateChanged($event)" >
+            </my-date-picker>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3"><label class="labelClass">{{'address' | translate}}</label></div>
+
+          <div class="col-4 inputClass">
+            <textarea class="form-control" autofocus=on id="address" [(ngModel)]="details['address']" name="address" rows="4" cols="30"
+              style="min-width: 100%">
+            </textarea>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3"><label class="labelClass">{{'hobbies' | translate}}</label></div>
+
+          <div class="col-4 inputClass d-flex">
+            <input class="form-check-input " autofocus=on type="checkbox" id="Travelling" name="Travelling" 
+              value="Travelling">
+            <label class="form-text pr-2" for="Travelling">{{'travelling' | translate}}</label>
+            <input class="form-check-input" autofocus=on type="checkbox" id="Writing" name="Writing"
+              value="Writing">
+            <label class="form-text pr-3" for="Writing">{{'writing'| translate}}</label>
+            <input class="form-check-input " autofocus=on type="checkbox" id="Reading" name="Reading" value="Reading" >
+            <label class="form-text" for="Reading">{{'reading' | translate}}</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label class="labelClass">{{'annualIncome' | translate}}</label>
+          </div>
+          <div class="col-4 inputClass">
+            <input style="width: 100%;" type="text" id="amount" name="amount"
+              [(ngModel)]="details['annualIncome']" (input)="formatCurrency(details['annualIncome'])" autofocus=on>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-2">
+        <div class="row">
+          <div class="col-3">
+            <label for="cars" class="labelClass">{{'languagebutton' | translate}}</label>
+          </div>
+          <div class="col-4 inputClass">
+            <select name="cars" id="cars" style="width: 100%;"  [(ngModel)]="details['language']" (change)="useLanguage(details['language'])">
+              <option value="english">{{'english' | translate}}</option>
+              <option value="french">{{'french' | translate}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-4">
+        <div class="row">
+          <div class="col-12 inputClass">
+            <input type="checkbox" class="form-check-input termConditions mr-2 " id="terms" name="terms" [(ngModel)]="details['termsAndConditions']"
+              value="termsandconditions">
+            <span class="termConditions ml-2">{{'termsAndConditions' | translate}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="form-group mt-4 mb-4">
+        <div class="col-12 submit">
+        <button class="btn btn-primary">{{'submit' | translate}}</button>
+        <!-- <button type="button" class="btn btn-primary" (click)="useLanguage('french')"> {{'languageButton' | translate}} </button> -->
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<router-outlet></router-outlet>
